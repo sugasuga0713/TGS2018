@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: ea99a66b154065642adc3aa84e5cb588
+timeCreated: 1523185548
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: DBstraight12
+  fontNames:
+  - DBstraight12
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
