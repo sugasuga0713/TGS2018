@@ -5,11 +5,11 @@ using UnityEngine;
 public class Dynamite : MonoBehaviour {
 
 	private GameObject explosion;
-	private Rigidbody2D rb;
+	//private Rigidbody2D rb;
 
 	private void Awake()
 	{
-		rb = transform.parent.GetComponent<Rigidbody2D>();
+	//	rb = transform.parent.GetComponent<Rigidbody2D>();
 		explosion = transform.parent.Find("explosion").gameObject;
 		explosion.SetActive(false);
 	}

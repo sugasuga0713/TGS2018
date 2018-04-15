@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseCharacterController : ManagedUpdateBehaviour {
+public class BaseCharacterController : BaseObject {
 
 	//------------------キャラクター情報---------------------
 
@@ -15,15 +15,12 @@ public class BaseCharacterController : ManagedUpdateBehaviour {
 	public float moveX = 0.0f;//移動量
 	public float fallSpeedLimit = -5.0f;
 
-	[System.NonSerialized] public bool active = false;//行動可能か
 	[System.NonSerialized] public bool grounded = false;//接地しているか
 
 	//-------------------------------------------------------
 
 	[System.NonSerialized] public Vector3 startScale; //初期サイズ 反転に使用
 
-	[System.NonSerialized] public Rigidbody2D rb; //Rigidbodyのキャッシュ
-	[System.NonSerialized] public Transform myTransform; //Transformのキャッシュ
 	public AnimationController animationController; //
 		
 	public override void FixedUpdateMe()
@@ -91,13 +88,12 @@ public class BaseCharacterController : ManagedUpdateBehaviour {
 
 	protected override void Initialize()
 	{
+		base.Initialize();
 		startScale = transform.localScale; //初期サイズを取得
 		rb = GetComponent<Rigidbody2D>(); //Rigidbodyを取得
-		myTransform = GetComponent<Transform>(); //Transformを取得
 		dirX = (transform.localScale.x > 0.0f) ? 1 : -1; //キャラが右向きのときは画像サイズを1、左向きのときは-1(反転)にする
 		transform.localScale = new Vector3(dirX * startScale.x,
 			startScale.y, 1f);
-		active = true; //操作可能
 	}
 
 }

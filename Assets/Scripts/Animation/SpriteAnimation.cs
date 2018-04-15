@@ -19,8 +19,8 @@ public class SpriteAnimation : MonoBehaviour
 	[System.Serializable]
 	class AnimationData
 	{
-		public Sprite sprite;
-		public Vector2 size;
+		public Sprite sprite = null;
+		public Vector2 size = Vector2.zero;
 	}
 	[SerializeField]
 	private AnimationData[] animFrames = new AnimationData[0];

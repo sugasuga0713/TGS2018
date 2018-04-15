@@ -9,8 +9,12 @@ public class AimingMark : ManagedUpdateBehaviour {
 	private Transform myTransform;
 
 	[SerializeField] private GameObject[] spriteObjs = null;
+	[SerializeField] private float magnification = 1.3f; //拡大する際の倍率
 	private bool near = false;
 	private bool previousFlag = false; //直前のフラグ
+
+	private Vector2 startScale;
+	private Vector2 nearScale;
 
 	public override void FixedUpdateMe()
 	{
@@ -24,11 +28,11 @@ public class AimingMark : ManagedUpdateBehaviour {
 
 		if (near)
 		{
-			ObjectChange(1,0);
+			myTransform.localScale = nearScale;
 		}
 		else
 		{
-			ObjectChange(0,1);
+			myTransform.localScale = startScale;
 		}
 		previousFlag = near;
 	}
@@ -47,6 +51,8 @@ public class AimingMark : ManagedUpdateBehaviour {
 	protected override void Initialize()
 	{
 		myTransform = GetComponent<Transform>();
+		startScale = myTransform.localScale;
+		nearScale = new Vector2(startScale.x * magnification,startScale.y * magnification);
 	}
 
 	public void DistanceCheck(Vector2 pos)

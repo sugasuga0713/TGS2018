@@ -20,8 +20,7 @@ public class CameraController : ManagedUpdateBehaviour {
 
 	private int rangeNum = 0; //現在のカメラ範囲
 
-	private float posX;
-	private int i; //ループ用
+	//private int i; //ループ用
 
 	[SerializeField] private float cameraRangeX = 11;
 
@@ -30,16 +29,10 @@ public class CameraController : ManagedUpdateBehaviour {
 		myTransform = GetComponent<Transform>();
 		//offset = myTransform.position - targetTransform.position;
 
-	/*	Vector3 topLeft = Camera.main.ScreenToWorldPoint(Vector3.zero);
-		Vector3 bottomRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0.0f));
-		Debug.Log(bottomRight.x - topLeft.x);
-		Debug.Log("左端 = " + topLeft.x.ToString() + ", 右端 = " + bottomRight.x);*/
 	}
 
 	private void LateUpdate()
 	{
-		posX = myTransform.position.x;
-
 		myTransform.position = targetTransform.position + offset;
 	
 		//移動制限処理

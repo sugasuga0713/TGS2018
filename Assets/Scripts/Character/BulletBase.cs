@@ -13,7 +13,7 @@ public class BulletBase : ManagedUpdateBehaviour {
 	//-----------------------------------------------
 
 	[System.NonSerialized] public Transform myTransform; //Transformのキャッシュ
-	private SpriteRenderer sprite;
+	//private SpriteRenderer sprite;
 
 	public virtual void Set(float dirX, float dirY, Vector3 pos) //dirはキャラの向きを表す 
 	{
@@ -67,6 +67,6 @@ public class BulletBase : ManagedUpdateBehaviour {
 	protected override void Initialize()
 	{
 		myTransform = GetComponent<Transform>();
-		sprite = transform.Find("sprite").GetComponent<SpriteRenderer>();
+		//sprite = transform.Find("sprite").GetComponent<SpriteRenderer>();
 	}
 }

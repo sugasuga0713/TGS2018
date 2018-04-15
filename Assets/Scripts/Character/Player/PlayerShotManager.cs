@@ -80,6 +80,16 @@ public class PlayerShotManager : ManagedUpdateBehaviour
 		warpHoleTransform[1].position = collTransform.position;
 		warpHoleAnim[1].Play();
 
+		if (type) //移動するものがプレイヤー以外のとき
+		{
+			//移動等の無効化処理
+		}
+		else //プレイヤーを移動するとき
+		{
+		}
+
+		collTransform.GetComponent<BaseObject>().Pause();
+
 		StartCoroutine(TransferCoroutine(collTransform, collider, collSize, type));
 	}
 
@@ -111,10 +121,11 @@ public class PlayerShotManager : ManagedUpdateBehaviour
 
 		playerController.ShotDamage(ReturnDamege(pos, collTransform.position)); //移動時のダメージ計算
 
+		collTransform.GetComponent<BaseObject>().CancelPause();
 		collTransform.position = pos; //移動
 	}
 
-	protected override void Initialize()
+	protected override void Initialize() //初期化
 	{
 		Array.Resize(ref bullets, bulletScripts.Length);
 		for (i = 0; i < bulletScripts.Length; i++)
@@ -126,12 +137,12 @@ public class PlayerShotManager : ManagedUpdateBehaviour
 
 	}
 
-	public Vector3 GetShotPosition()
+	public Vector3 GetShotPosition() 
 	{
 		return bulletPosition.position;
 	}
 
-	private float ReturnDamege(Vector2 warpPosition,Vector2 targetPosition)
+	private float ReturnDamege(Vector2 warpPosition,Vector2 targetPosition) 
 	{
 		damage = Vector2.Distance(warpPosition,targetPosition);
 		damage *= 0.05f;

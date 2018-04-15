@@ -38,6 +38,9 @@ public class PlayerController : BaseCharacterController {
 
 	public override void Jump()
 	{
+		if (!Active)
+			return;
+
 		if (jumpFlag)
 		{
 			if (hasJumped)
@@ -101,6 +104,9 @@ public class PlayerController : BaseCharacterController {
 
 	protected override void Move()
 	{
+		if(!Active)
+			return;
+
 		//移動処理
 		if(dirX != moveX)
 		{
@@ -151,6 +157,9 @@ public class PlayerController : BaseCharacterController {
 
 	public void Shot(int num)
 	{
+		if (!Active)
+			return;
+
 		if (num == 1 && aimingMark.GetNearFlag())
 		{
 			shotManager.Transfer(myTransform, myCollider, myCollider.bounds.size,false);
