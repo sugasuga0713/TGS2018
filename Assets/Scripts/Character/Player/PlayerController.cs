@@ -49,6 +49,7 @@ public class PlayerController : BaseCharacterController {
 			rb.velocity = Vector2.zero;
 			rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
 			StartCoroutine(JumpFlagOFF(0.2f));
+
 		}
 	}
 
@@ -84,7 +85,7 @@ public class PlayerController : BaseCharacterController {
 				StartCoroutine(LandingFlagOFF(0.1f));
 				dustPosition = groundCheck[1].position;
 				dustPosition.y += dustPosY;
-				EffectManager.Instance.PlayEffect("smoke",dustPosition,0.5f);
+				EffectManager.Instance.PlayEffect("smoke", dustPosition, 0.5f);
 			}
 		}
 		else
@@ -327,4 +328,5 @@ public class PlayerController : BaseCharacterController {
 		//	}
 		}
 	}
+
 }

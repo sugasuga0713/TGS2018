@@ -49,7 +49,7 @@ public class BaseCharacterController : ManagedUpdateBehaviour {
 		}
 	}
 
-	public virtual void InputX(float x){// int xのは移動量が入る
+	public virtual void InputX(float x){// int xには移動量が入る
 		if (x < 0)
 			dirX = -1;
 		else if (x > 0)

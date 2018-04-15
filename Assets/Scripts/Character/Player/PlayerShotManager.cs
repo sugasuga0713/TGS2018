@@ -19,7 +19,8 @@ public class PlayerShotManager : ManagedUpdateBehaviour
 
 	[SerializeField] private Transform[] warpHoleTransform = null; //ワープホールのTransform
 	[System.NonSerialized] public GameObject[] warpHole = new GameObject[2]; //ワープホールのオブジェクト
-	[SerializeField] private SpriteAnimation[] warpHoleAnim = null; 
+	[SerializeField] private SpriteAnimation[] warpHoleAnim = null;
+	[SerializeField] private SpriteAnimation[] muzzleFlashAnim = null; 
 	private Collider2D warpCollider;
 	private Vector3 warpPosition; //ワープするポジション
 	public int setVector; //ワープホールの向きを設定するためのベクトル Vector2型のvectorに対応する 0で左、1で右、2で上、3で下
@@ -41,6 +42,7 @@ public class PlayerShotManager : ManagedUpdateBehaviour
 			{
 				Quaternion ro = Quaternion.Euler(0.0f, 0.0f, angle);
 				bulletScripts[i].Set(bulletPosition.position,ro);
+				muzzleFlashAnim[num].Play();
 				return;
 			}
 		}
