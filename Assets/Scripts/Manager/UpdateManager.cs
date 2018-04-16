@@ -33,6 +33,15 @@ public class UpdateManager : SingletonMonoBehaviour<UpdateManager> {
 		}
 	}
 
+	private void LateUpdate()
+	{
+		for(i = 0;i < arraySize; i++)
+		{
+			if (scripts[i] == null) continue;
+			//scripts[i].LateUpdateMe();
+		}
+	}
+
 	public void Add(ManagedUpdateBehaviour behaviour)
 	{
 		if (behaviour == null) return;

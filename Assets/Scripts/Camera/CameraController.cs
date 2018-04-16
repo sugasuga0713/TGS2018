@@ -18,6 +18,9 @@ public class CameraController : ManagedUpdateBehaviour {
 	[SerializeField]
 	private MovingRange[] movingRange = new MovingRange[0];
 
+	[SerializeField] private float baseSmoothSpeed = 5.0f;
+	private float smoothSpeed = 5.0f;
+
 	private int rangeNum = 0; //現在のカメラ範囲
 
 	//private int i; //ループ用
@@ -28,17 +31,19 @@ public class CameraController : ManagedUpdateBehaviour {
 	{
 		myTransform = GetComponent<Transform>();
 		//offset = myTransform.position - targetTransform.position;
-
+		smoothSpeed = baseSmoothSpeed;
 	}
 
-	private void LateUpdate()
+	public override void LateUpdateMe()
 	{
-		myTransform.position = targetTransform.position + offset;
-	
+		//myTransform.position = targetTransform.position + offset;
+
+		pos = Vector2.Lerp(myTransform.position, targetTransform.position + offset, smoothSpeed * Time.deltaTime); //カメラの位置をLerpで補間
+
 		//移動制限処理
-		pos = myTransform.position;
-		pos.x = Mathf.Clamp(pos.x,movingRange[rangeNum].movingRangeMin.position.x + cameraRangeX, movingRange[rangeNum].movingRangeMax.position.x - cameraRangeX);
+		pos.x = Mathf.Clamp(pos.x,movingRange[rangeNum].movingRangeMin.position.x + cameraRangeX, movingRange[rangeNum].movingRangeMax.position.x - cameraRangeX); 
 		pos.y = Mathf.Clamp(pos.y,movingRange[rangeNum].movingRangeMin.position.y,movingRange[rangeNum].movingRangeMax.position.y);
+
 		myTransform.position = pos;
 	}
 
@@ -50,6 +55,18 @@ public class CameraController : ManagedUpdateBehaviour {
 	public float ReturnMaxX()
 	{
 		return movingRange[rangeNum].movingRangeMax.position.x - 0.8f;
+	}
+
+	public void Smooth()
+	{
+		smoothSpeed = 5.0f;
+		StartCoroutine(CancelSmooth());
+	}
+
+	private IEnumerator CancelSmooth()
+	{
+		yield return new WaitForSeconds(1.0f);
+		smoothSpeed = baseSmoothSpeed;
 	}
 
 }

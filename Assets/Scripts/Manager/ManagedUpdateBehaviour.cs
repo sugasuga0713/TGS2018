@@ -31,4 +31,9 @@ public class ManagedUpdateBehaviour : MonoBehaviour
 
 	}
 
+	public virtual void LateUpdateMe() //LateUpdateの代わりの処理を書く
+	{
+
+	}
+
 }

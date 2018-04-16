@@ -127,6 +127,8 @@ public class PlayerController : BaseCharacterController {
 		{
 			rb.velocity = new Vector2(rb.velocity.x, fallSpeedLimit);
 		}
+
+		cameraController.LateUpdateMe();
 	}
 
 	protected override void FixedUpdateCharacter()
@@ -163,6 +165,7 @@ public class PlayerController : BaseCharacterController {
 		if (num == 1 && aimingMark.GetNearFlag())
 		{
 			shotManager.Transfer(myTransform, myCollider, myCollider.bounds.size,false);
+			cameraController.Smooth();
 			return;
 		}
 
