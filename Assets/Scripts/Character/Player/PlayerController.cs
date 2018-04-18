@@ -31,6 +31,7 @@ public class PlayerController : BaseCharacterController {
 	[SerializeField] private float dustPosY = 0.5f;
 
 	[SerializeField] private float bottomLine = -8.0f;
+	[SerializeField] private float cameraRangeAdjustmentX = 0.5f;
 	private Vector3 respawnPosition;
 	private Vector3 pos;
 
@@ -119,7 +120,7 @@ public class PlayerController : BaseCharacterController {
 
 		//------キャラクターが画面外に出ないようにする処理--------------
 		pos = myTransform.position;
-		pos.x = Mathf.Clamp(pos.x, cameraController.ReturnMinX(), cameraController.ReturnMaxX());
+		pos.x = Mathf.Clamp(pos.x, cameraController.ReturnMinX() - cameraRangeAdjustmentX, cameraController.ReturnMaxX() + cameraRangeAdjustmentX);
 		myTransform.position = pos;
 		//--------------------------------------------------------------
 

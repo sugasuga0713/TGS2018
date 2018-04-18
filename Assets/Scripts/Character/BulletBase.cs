@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletBase : ManagedUpdateBehaviour {
+public class BulletBase : BaseObject {
 
 	//-----------------------------------------------
 	public float speed = 5.0f;//現在のスピード
@@ -11,9 +11,6 @@ public class BulletBase : ManagedUpdateBehaviour {
 
 	public Vector2 vector = new Vector2(1, 0);
 	//-----------------------------------------------
-
-	[System.NonSerialized] public Transform myTransform; //Transformのキャッシュ
-	//private SpriteRenderer sprite;
 
 	public virtual void Set(float dirX, float dirY, Vector3 pos) //dirはキャラの向きを表す 
 	{
@@ -64,9 +61,4 @@ public class BulletBase : ManagedUpdateBehaviour {
 		this.gameObject.SetActive(false);
 	}
 
-	protected override void Initialize()
-	{
-		myTransform = GetComponent<Transform>();
-		//sprite = transform.Find("sprite").GetComponent<SpriteRenderer>();
-	}
 }

@@ -46,9 +46,13 @@ public class CameraController : ManagedUpdateBehaviour {
 
 		myTransform.position = pos;
 
-		if(targetTransform.position.x >= movingRange[rangeNum].movingRangeMax.position.x - 1.0f)
+		if(targetTransform.position.x >= movingRange[rangeNum].movingRangeMax.position.x - 0.5f)
 		{
 			rangeNum++;
+		}
+		if(targetTransform.position.x <= movingRange[rangeNum].movingRangeMin.position.x + 0.5f)
+		{
+			rangeNum--;
 		}
 	}
 
