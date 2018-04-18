@@ -11,6 +11,10 @@ public class TransferBullet : PlayerBullet {
 			Delete();
 			return;
 		}
+		else if(coll.tag == "Player")
+		{
+			return;
+		}
 		else
 		{
 			Hit(coll);

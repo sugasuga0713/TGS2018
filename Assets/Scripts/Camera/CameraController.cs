@@ -45,6 +45,11 @@ public class CameraController : ManagedUpdateBehaviour {
 		pos.y = Mathf.Clamp(pos.y,movingRange[rangeNum].movingRangeMin.position.y,movingRange[rangeNum].movingRangeMax.position.y);
 
 		myTransform.position = pos;
+
+		if(targetTransform.position.x >= movingRange[rangeNum].movingRangeMax.position.x - 1.0f)
+		{
+			rangeNum++;
+		}
 	}
 
 	public float ReturnMinX()
