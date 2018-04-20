@@ -102,6 +102,7 @@ public class SpriteAnimation : MonoBehaviour
 	{
 		if (changeColl)
 		{
+			collider.enabled = true;
 			Play2();
 		}
 		else
@@ -163,6 +164,10 @@ public class SpriteAnimation : MonoBehaviour
 	// アニメーション終了時に呼び出す関数
 	protected virtual void OnAnimationFinish()
 	{
+		if (changeColl)
+		{
+			collider.enabled = false;
+		}
 	}
 
 	/**

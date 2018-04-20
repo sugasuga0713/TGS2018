@@ -6,7 +6,7 @@ public class TransferBullet : PlayerBullet {
 
 	protected override void OnTriggerEnter2D(Collider2D coll)
 	{
-		if (coll.tag == "Stage")
+		if (coll.tag == "Stage" || coll.tag == "Stage_Break")
 		{
 			Delete();
 			return;

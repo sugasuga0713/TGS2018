@@ -96,4 +96,16 @@ public class BaseCharacterController : BaseObject {
 			startScale.y, 1f);
 	}
 
+	protected virtual void OnTriggerEnter2D(Collider2D collision)
+	{
+		Rigidbody2D collRb = collision.GetComponent<Rigidbody2D>();
+		if (collRb)
+		{
+			if(collRb.velocity.y <= -3.0f)
+			{
+				Damage(3.0f);
+			}
+		}
+	}
+
 }

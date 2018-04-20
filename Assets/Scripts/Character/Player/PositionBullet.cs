@@ -12,6 +12,8 @@ public class PositionBullet : PlayerBullet {
 	private float bulletX, bulletY; //弾の位置
 	private float collX, collY; //コライダーオブジェクトの位置
 
+	[SerializeField] private Vector2 boxPoint = Vector2.zero;
+	[SerializeField] private float boxSize = 0.1f;
 	private int vec;
 	private float sidePos;
 	private bool topPosition; //弾を撃った位置が弾に当たったものより上かどうか
@@ -41,32 +43,41 @@ public class PositionBullet : PlayerBullet {
 
 		topPosition = (startY > coll.transform.position.y) ? true : false;
 
-		//Debug.Log("bulletY : " + bulletY + ",collY : " + collY);
-		if(bulletY >= collY  + halfSizeY - 0.2f && topPosition)
+		if(bulletY >= collY  + halfSizeY - 0.3f && topPosition)
 		{
-			//Debug.Log("上にヒット");
+			hitCollPosition.y += halfSizeY;
+			if (Physics2D.OverlapBox(hitCollPosition + boxPoint, collSize * boxSize, coll.transform.eulerAngles.z))
+				return;
+
+			Debug.Log("上にヒット");
 			vec = 0;
 			sidePos = collY + halfSizeY;
-		}else if(bulletY <= collY - halfSizeY + 0.2f && !topPosition)
+		}else if(bulletY <= collY - halfSizeY + 0.3f && !topPosition)
 		{
-			//Debug.Log("下にヒット");
+			hitCollPosition.y -= halfSizeY;
+			if (Physics2D.OverlapBox(hitCollPosition - boxPoint, collSize * boxSize, coll.transform.eulerAngles.z))
+				return;
+
+			Debug.Log("下にヒット");
 			vec = 1;
 			sidePos = collY - halfSizeY;
 		}
-		else if(bulletX >= collX + halfSizeX - 0.1f)
+		else if(bulletX >= collX + halfSizeX - 0.5f)
 		{
-			//Debug.Log("右にヒット");
+			Debug.Log("右にヒット");
 			vec = 2;
 			sidePos = collX + halfSizeX;
+			hitCollPosition.x += halfSizeX;
 		}
 		else
 		{
-			//Debug.Log("左にヒット");
+			Debug.Log("左にヒット");
 			vec = 3;
 			sidePos = collX - halfSizeX;
+			hitCollPosition.x -= halfSizeX;
 		}
 
-		shotManager.TransferSet(myTransform,coll.transform,coll,vec,sidePos);
+		shotManager.TransferSet(coll.transform, coll.transform, coll, hitCollPosition,vec,sidePos);
 	}
 }
 

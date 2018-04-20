@@ -20,7 +20,8 @@ public class PlayerShotManager : ManagedUpdateBehaviour
 	[SerializeField] private Transform[] warpHoleTransform = null; //ワープホールのTransform
 	[System.NonSerialized] public GameObject[] warpHole = new GameObject[2]; //ワープホールのオブジェクト
 	[SerializeField] private SpriteAnimation[] warpHoleAnim = null;
-	[SerializeField] private SpriteAnimation[] muzzleFlashAnim = null; 
+	[SerializeField] private SpriteAnimation[] muzzleFlashAnim = null;
+	private BaseObject objectScript;
 	private Collider2D warpCollider;
 	private Vector3 warpPosition; //ワープするポジション
 	public int setVector; //ワープホールの向きを設定するためのベクトル Vector2型のvectorに対応する 0で左、1で右、2で上、3で下
@@ -55,13 +56,13 @@ public class PlayerShotManager : ManagedUpdateBehaviour
 
 	//-------------------ワープホールセット-----------------------------------------------------------------------------------------------------------------
 
-	public void TransferSet(Transform bulletTransform, Transform collTransform, Collider2D collider,int vector, float sidePos)
+	public void TransferSet(Transform bulletTransform, Transform collTransform, Collider2D collider , Vector2 warpHolePos,int vector, float sidePos)
 	{
 		setVector = vector; //弾の向きを取得
 		sidePosition = sidePos;
 		warpCollider = collider;
 
-		warpHoleTransform[0].position = bulletTransform.position; //ワープホールの位置を弾の衝突位置に変更
+		warpHoleTransform[0].position = warpHolePos; //ワープホールの位置を弾の衝突位置に変更
 
 		warpHole[0].SetActive(true);
 		warpHoleAnim[0].Play();
@@ -77,7 +78,7 @@ public class PlayerShotManager : ManagedUpdateBehaviour
 		if (collider == warpCollider)
 			return;
 
-		warpHoleTransform[1].position = collTransform.position;
+		warpHoleTransform[1].position = collTransform.localPosition;
 		warpHoleAnim[1].Play();
 
 		if (type) //移動するものがプレイヤー以外のとき
@@ -88,12 +89,15 @@ public class PlayerShotManager : ManagedUpdateBehaviour
 		{
 		}
 
-		collTransform.GetComponent<BaseObject>().Pause();
+		objectScript = collTransform.GetComponent<BaseObject>();
+		if (objectScript == null)
+			collTransform.parent.GetComponent<BaseObject>();
+		objectScript.Pause();
 
-		StartCoroutine(TransferCoroutine(collTransform, collider, collSize, type));
+		StartCoroutine(TransferCoroutine(collTransform, collSize, type));
 	}
 
-	private IEnumerator TransferCoroutine(Transform collTransform, Collider2D collider, Vector2 collSize, bool type)
+	private IEnumerator TransferCoroutine(Transform collTransform, Vector2 collSize, bool type)
 	{
 		yield return new WaitForSeconds(0.5f);
 		collTransform.gameObject.SetActive(false);
@@ -119,10 +123,10 @@ public class PlayerShotManager : ManagedUpdateBehaviour
 				break;
 		}
 
-		playerController.ShotDamage(ReturnDamege(pos, collTransform.position)); //移動時のダメージ計算
+		playerController.ShotDamage(ReturnDamege(pos, collTransform.localPosition)); //移動時のダメージ計算
 
-		collTransform.GetComponent<BaseObject>().CancelPause();
-		collTransform.position = pos; //移動
+		objectScript.CancelPause();
+		collTransform.localPosition = pos; //移動
 	}
 
 	protected override void Initialize() //初期化
@@ -148,5 +152,13 @@ public class PlayerShotManager : ManagedUpdateBehaviour
 		damage *= 0.05f;
 		Debug.Log(damage);
 		return damage;
+	}
+
+	public override void FixedUpdateMe()
+	{
+		if (!CameraRange.CameraRangeCheck(warpHoleTransform[0].position))
+		{
+			warpHole[0].SetActive(false);
+		}
 	}
 }

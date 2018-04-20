@@ -2,17 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dynamite : MonoBehaviour {
+public class Dynamite : BaseObject {
 
 	private GameObject explosion;
 	//private Rigidbody2D rb;
 
-	private void Awake()
-	{
-	//	rb = transform.parent.GetComponent<Rigidbody2D>();
-		explosion = transform.parent.Find("explosion").gameObject;
-		explosion.SetActive(false);
-	}
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		if(collision.tag == "Fire")
@@ -23,9 +17,16 @@ public class Dynamite : MonoBehaviour {
 
 	public void Explosion()
 	{
-		explosion.transform.position = transform.position;
+		explosion.transform.position = myTransform.position;
 		explosion.SetActive(true);
 		explosion.GetComponent<SpriteAnimation>().Play();
 		gameObject.SetActive(false);
+	}
+
+	protected override void Initialize()
+	{
+		base.Initialize();
+		explosion = myTransform.parent.Find("explosion").gameObject;
+		explosion.SetActive(false);
 	}
 }

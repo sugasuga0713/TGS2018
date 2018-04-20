@@ -10,6 +10,8 @@ public class CSVLoader : MonoBehaviour {
 
 	private List<string[]> csvData = new List<string[]>(); //読み取ったCSVの情報を格納する
 
+	[SerializeField] private Transform parentTransform = null;
+
 	private Vector2 createMapPosition;
 	private int i, j,k;
 	private int lineCount; //行数　ループに使う
@@ -51,7 +53,7 @@ public class CSVLoader : MonoBehaviour {
 
 						GameObject map = Instantiate(createMapData[k].mapPrefab,
 					createMapPosition, transform.rotation) as GameObject;
-						map.transform.parent = transform;
+						map.transform.parent = parentTransform;
 					}
 				}
 			}

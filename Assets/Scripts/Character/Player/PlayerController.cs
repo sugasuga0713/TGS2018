@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerController : BaseCharacterController {
 
-	private bool jumpFlag = true; //ジャンプ数を制御するための変数
-
 	private float shotAngle;
 
 	private bool hasJumped = false; //ジャンプ直後　//ジャンプ直後に接地判定をとらないために使用する
@@ -42,13 +40,12 @@ public class PlayerController : BaseCharacterController {
 		if (!Active)
 			return;
 
-		if (jumpFlag)
+		if (grounded)
 		{
 			if (hasJumped)
 				return;
 
 			hasJumped = true;
-			jumpFlag = false;
 			//rb.velocity = new Vector2(rb.velocity.x,0);
 			rb.velocity = Vector2.zero;
 			rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
@@ -95,11 +92,6 @@ public class PlayerController : BaseCharacterController {
 		else
 		{
 			grounded = false;
-		}
-
-		if (grounded && !hasJumped)
-		{
-			jumpFlag = true;
 		}
 	}
 
