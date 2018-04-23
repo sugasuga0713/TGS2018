@@ -6,7 +6,8 @@ public class PositionBullet : PlayerBullet {
 
 	private Vector2 collSize; //ヒットしたコライダーのサイズ
 	private Vector2 hitCollPosition; //ヒットしたコライダーを持つオブジェクトの位置
-	private Vector2 hitPosition; //ヒットしたときの弾の位置
+	private Vector2 hitCollPositionTop;
+	private Vector2 hitCollPositionButtom;
 
 	private float halfSizeX,halfSizeY; //コライダーの半分のサイズ
 	private float bulletX, bulletY; //弾の位置
@@ -17,6 +18,8 @@ public class PositionBullet : PlayerBullet {
 	private int vec;
 	private float sidePos;
 	private bool topPosition; //弾を撃った位置が弾に当たったものより上かどうか
+
+	[SerializeField] private LayerMask layerMask = 0;
 
 	protected override void OnTriggerEnter2D(Collider2D coll)
 	{
@@ -32,38 +35,41 @@ public class PositionBullet : PlayerBullet {
 	{
 		collSize = coll.bounds.size; //コライダーのサイズ
 		hitCollPosition = coll.transform.position; //ヒットしたオブジェクトの位置
-		hitPosition = myTransform.position; //ヒットしたときの弾の位置
+
+		hitCollPositionTop = hitCollPosition + boxPoint;
+		hitCollPositionTop.y += halfSizeY;
+
+		hitCollPositionButtom = hitCollPosition - boxPoint;
+		hitCollPositionButtom.y -= halfSizeY;
 
 		halfSizeX = collSize.x * 0.5f; //コライダーのXサイズの半分
 		halfSizeY = collSize.y * 0.5f; //コライダーのXサイズの半分
-		bulletX = hitPosition.x; //弾のX位置
-		bulletY = hitPosition.y; //弾のY位置
-		collX = hitCollPosition.x; //コライダーオブジェクトのX位置
-		collY = hitCollPosition.y; //コライダーオブジェクトのY位置
+		bulletX = myTransform.position.x; //弾のX位置
+		bulletY = myTransform.position.y; //弾のY位置
+		collX = coll.transform.position.x; //コライダーオブジェクトのX位置
+		collY = coll.transform.position.y; //コライダーオブジェクトのY位置
 
 		topPosition = (startY > coll.transform.position.y) ? true : false;
 
-		if(bulletY >= collY  + halfSizeY - 0.3f && topPosition)
+		if(bulletY >= collY  + halfSizeY - 0.3f && topPosition && !(Physics2D.OverlapBox(hitCollPositionTop, collSize * boxSize, coll.transform.eulerAngles.z,layerMask)))
 		{
-			hitCollPosition.y += halfSizeY;
-			if (Physics2D.OverlapBox(hitCollPosition + boxPoint, collSize * boxSize, coll.transform.eulerAngles.z))
-				return;
-
-			Debug.Log("上にヒット");
+			//Debug.Log("上にヒット");
 			vec = 0;
 			sidePos = collY + halfSizeY;
-		}else if(bulletY <= collY - halfSizeY + 0.3f && !topPosition)
+			hitCollPosition.y += halfSizeY;
+		}else if(bulletY <= collY - halfSizeY + 0.3f && !topPosition && !(Physics2D.OverlapBox(hitCollPositionButtom, collSize * boxSize, coll.transform.eulerAngles.z,layerMask)))
 		{
-			hitCollPosition.y -= halfSizeY;
-			if (Physics2D.OverlapBox(hitCollPosition - boxPoint, collSize * boxSize, coll.transform.eulerAngles.z))
-				return;
 
-			Debug.Log("下にヒット");
+			//Debug.Log("下にヒット");
 			vec = 1;
 			sidePos = collY - halfSizeY;
+			hitCollPosition.y -= halfSizeY;
 		}
 		else if(bulletX >= collX + halfSizeX - 0.5f)
 		{
+			Debug.Log(bulletY + " > " + (collY + halfSizeY - 0.3f));
+			Debug.Log("TopPosition = " + topPosition);
+			Debug.Log("Physics2D.OverlapBox = " + Physics2D.OverlapBox(hitCollPositionButtom, collSize * boxSize, coll.transform.eulerAngles.z, layerMask));
 			Debug.Log("右にヒット");
 			vec = 2;
 			sidePos = collX + halfSizeX;
@@ -77,7 +83,12 @@ public class PositionBullet : PlayerBullet {
 			hitCollPosition.x -= halfSizeX;
 		}
 
-		shotManager.TransferSet(coll.transform, coll.transform, coll, hitCollPosition,vec,sidePos);
+		shotManager.TransferSet(myTransform, coll.transform, coll, hitCollPosition,vec,sidePos);
+	}
+
+	private void SideCheck()
+	{
+
 	}
 }
 
@@ -88,3 +99,4 @@ public class PositionBullet : PlayerBullet {
  * 例えば、物体の上辺に当たったとして
  * PositionBulletが当たった物体の位置とColliderのサイズを調べる
  **/
+

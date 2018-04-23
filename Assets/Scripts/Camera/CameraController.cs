@@ -43,14 +43,6 @@ public class CameraController : ManagedUpdateBehaviour {
 	{
 		//myTransform.position = targetTransform.position + offset;
 
-		pos = Vector2.Lerp(myTransform.position, targetTransform.position + offset, smoothSpeed * Time.deltaTime); //カメラの位置をLerpで補間
-
-		//移動制限処理
-		pos.x = Mathf.Clamp(pos.x,movingRangeX[rangeNumX].rangeMin + cameraRangeX, movingRangeX[rangeNumX].rangeMax - cameraRangeX); 
-		pos.y = Mathf.Clamp(pos.y,movingRangeY[rangeNumY].rangeMin, movingRangeY[rangeNumY].rangeMax);
-
-		myTransform.position = pos;
-
 		if(targetTransform.position.x >= movingRangeX[rangeNumX].pointMax)
 		{
 			rangeNumX++;
@@ -75,6 +67,14 @@ public class CameraController : ManagedUpdateBehaviour {
 				rangeNumY = 0;
 			}
 		}
+
+		pos = Vector2.Lerp(myTransform.position, targetTransform.position + offset, smoothSpeed * Time.deltaTime); //カメラの位置をLerpで補間
+
+		//移動制限処理
+		pos.x = Mathf.Clamp(pos.x, movingRangeX[rangeNumX].rangeMin + cameraRangeX, movingRangeX[rangeNumX].rangeMax - cameraRangeX);
+		pos.y = Mathf.Clamp(pos.y, movingRangeY[rangeNumY].rangeMin, movingRangeY[rangeNumY].rangeMax);
+		 
+		myTransform.position = pos;
 
 	}
 

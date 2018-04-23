@@ -28,6 +28,8 @@ public class BulletBase : BaseObject {
 		lifeTime -= Time.deltaTime;
 		if (lifeTime <= 0)
 		{
+			Debug.Log(this.gameObject.name);
+
 			Delete();
 		}
 
@@ -59,6 +61,14 @@ public class BulletBase : BaseObject {
 	protected virtual void Delete()
 	{
 		this.gameObject.SetActive(false);
+		
+	}
+
+	protected override void Initialize()
+	{
+		base.Initialize();
+		lifeTime = defaultLifeTime;
+
 	}
 
 }
