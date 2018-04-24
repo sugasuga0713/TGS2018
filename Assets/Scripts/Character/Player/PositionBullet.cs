@@ -72,9 +72,9 @@ public class PositionBullet : PlayerBullet {
 				Debug.Log("右にヒット");
 				vec = 2;
 				sidePos = collX + halfSizeX;
-				hitCollPosition.x += halfSizeX;
+				hitCollPosition.x += halfSizeX;		}
+
 			}
-		}
 		else //弾が中央より左に当たった時
 		{
 			Debug.Log("左より");
@@ -85,10 +85,6 @@ public class PositionBullet : PlayerBullet {
 			hitCollPosBottomL.y -= halfSizeY - 0.1f;
 			hitCollPosBottomL.x -= halfSizeX + 0.1f;
 
-			if (!Physics2D.OverlapPoint(hitCollPosTopL, layerMask))
-			{
-				Debug.Log(hitCollPosTopL);
-			}
 			if (bulletY >= collY + halfSizeY - 0.3f && topPosition && !(Physics2D.OverlapPoint(hitCollPosTopL, layerMask)))
 			{
 				Debug.Log("上にヒット");
