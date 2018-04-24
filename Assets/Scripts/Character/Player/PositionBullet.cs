@@ -46,12 +46,15 @@ public class PositionBullet : PlayerBullet {
 		if(bulletX >= hitCollPosition.x) //弾が中央より右に当たったとき
 		{
 			Debug.Log("右より");
-			hitCollPosTopR = hitCollPosBottomR = hitCollPosition;
+			hitCollPosTopR = hitCollPosition;
+			hitCollPosBottomR = hitCollPosition;
 			hitCollPosTopR.y += halfSizeY + 0.1f;
 			hitCollPosTopR.x += halfSizeX - 0.1f;
 
-			hitCollPosBottomR.y -= halfSizeY - 0.1f;
+			hitCollPosBottomR.y -= halfSizeY + 0.1f;
 			hitCollPosBottomR.x += halfSizeX - 0.1f;
+
+			Debug.Log((Physics2D.OverlapPoint(hitCollPosBottomR, layerMask)));
 
 			if(bulletY >= collY + halfSizeY - 0.3f && topPosition && !(Physics2D.OverlapPoint(hitCollPosTopR, layerMask)))
 			{
@@ -78,12 +81,16 @@ public class PositionBullet : PlayerBullet {
 		else //弾が中央より左に当たった時
 		{
 			Debug.Log("左より");
-			hitCollPosTopL = hitCollPosBottomL = hitCollPosition;
+			hitCollPosTopL = hitCollPosition;
+			hitCollPosBottomL = hitCollPosition;
 			hitCollPosTopL.y += halfSizeY + 0.1f;
-			hitCollPosTopL.x -= halfSizeX + 0.1f;
+			hitCollPosTopL.x -= halfSizeX - 0.1f;
 
-			hitCollPosBottomL.y -= halfSizeY - 0.1f;
-			hitCollPosBottomL.x -= halfSizeX + 0.1f;
+			hitCollPosBottomL.y -= halfSizeY + 0.1f;
+			hitCollPosBottomL.x -= halfSizeX - 0.1f;
+
+			Debug.Log(Physics2D.OverlapPoint(hitCollPosBottomL,layerMask));
+			Debug.Log("hitCollPosTopL = " + hitCollPosTopL + "hitCollPosBottomL = " + hitCollPosBottomL);
 
 			if (bulletY >= collY + halfSizeY - 0.3f && topPosition && !(Physics2D.OverlapPoint(hitCollPosTopL, layerMask)))
 			{

@@ -17,6 +17,7 @@ public class CSVLoader : MonoBehaviour {
 	private int lineCount; //行数　ループに使う
 	private int itemCount; //項目数　ループに使う
 	private int dataCount; //マップチップのデータ数　ループに使う
+	private int loopCount;
 
 	private void Awake () {
 
@@ -54,6 +55,8 @@ public class CSVLoader : MonoBehaviour {
 						GameObject map = Instantiate(createMapData[k].mapPrefab,
 					createMapPosition, transform.rotation) as GameObject;
 						map.transform.parent = parentTransform;
+						map.name = loopCount.ToString();
+						loopCount++;
 					}
 				}
 			}
