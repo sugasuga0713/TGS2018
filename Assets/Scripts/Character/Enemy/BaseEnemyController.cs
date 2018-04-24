@@ -15,6 +15,17 @@ public class BaseEnemyController : BaseCharacterController {
 		}
 	}
 
+	public override void FixedUpdateMe()
+	{
+		Active = (CameraRange.CameraRangeCheck(myTransform.position)) ? true : false;
+		if (!Active)
+			return;
+		//キャラクターの個別処理
+		FixedUpdateCharacter();
+
+		Move();
+	}
+
 	protected override void FixedUpdateCharacter()
 	{
 		if (myTransform.position.y <= -6.0f)

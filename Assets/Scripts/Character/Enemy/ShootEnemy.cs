@@ -12,6 +12,7 @@ public class ShootEnemy : BaseEnemyController {
 
 	protected override void FixedUpdateCharacter()
 	{
+		base.FixedUpdateCharacter();
 		timeCount += Time.deltaTime;
 
 		if(timeCount >= shotInterval)

@@ -25,6 +25,8 @@ public class BaseCharacterController : BaseObject {
 		
 	public override void FixedUpdateMe()
 	{
+		if (!Active)
+			return;
 		//キャラクターの個別処理
 		FixedUpdateCharacter();
 
