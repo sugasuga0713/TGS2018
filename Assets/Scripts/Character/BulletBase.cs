@@ -28,8 +28,6 @@ public class BulletBase : BaseObject {
 		lifeTime -= Time.deltaTime;
 		if (lifeTime <= 0)
 		{
-			Debug.Log(this.gameObject.name);
-
 			Delete();
 		}
 
@@ -39,6 +37,10 @@ public class BulletBase : BaseObject {
 	{
 		if (!this.gameObject.activeSelf)
 			return;
+
+		if (!Active)
+			return;
+
 		myTransform.Translate(Vector2.up * speed * Time.deltaTime);
 
 		if (!CameraRange.CameraRangeCheck(myTransform.position))

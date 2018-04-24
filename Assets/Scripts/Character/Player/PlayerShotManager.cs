@@ -150,7 +150,7 @@ public class PlayerShotManager : ManagedUpdateBehaviour
 	{
 		damage = Vector2.Distance(warpPosition,targetPosition);
 		damage *= 0.05f;
-		Debug.Log(damage);
+		//Debug.Log(damage);
 		return damage;
 	}
 

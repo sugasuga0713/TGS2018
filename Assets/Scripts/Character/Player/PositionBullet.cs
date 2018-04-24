@@ -69,7 +69,7 @@ public class PositionBullet : PlayerBullet {
 		{
 			Debug.Log(bulletY + " > " + (collY + halfSizeY - 0.3f));
 			Debug.Log("TopPosition = " + topPosition);
-			Debug.Log("Physics2D.OverlapBox = " + Physics2D.OverlapBox(hitCollPositionButtom, collSize * boxSize, coll.transform.eulerAngles.z, layerMask));
+			//Debug.Log("Physics2D.OverlapBox = " + Physics2D.OverlapBox(hitCollPositionButtom, collSize * boxSize, coll.transform.eulerAngles.z, layerMask));
 			Debug.Log("右にヒット");
 			vec = 2;
 			sidePos = collX + halfSizeX;

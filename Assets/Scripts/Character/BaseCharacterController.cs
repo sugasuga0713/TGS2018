@@ -92,8 +92,8 @@ public class BaseCharacterController : BaseObject {
 		startScale = transform.localScale; //初期サイズを取得
 		rb = GetComponent<Rigidbody2D>(); //Rigidbodyを取得
 		dirX = (transform.localScale.x > 0.0f) ? 1 : -1; //キャラが右向きのときは画像サイズを1、左向きのときは-1(反転)にする
-		transform.localScale = new Vector3(dirX * startScale.x,
-			startScale.y, 1f);
+		/*transform.localScale = new Vector3(dirX * startScale.x,
+			startScale.y, 1f);*/
 	}
 
 	protected virtual void OnTriggerEnter2D(Collider2D collision)

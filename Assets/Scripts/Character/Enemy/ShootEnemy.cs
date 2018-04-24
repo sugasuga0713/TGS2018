@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ShootEnemy : BaseEnemyController {
 
-	[SerializeField] private GameObject bulletPregab;
-	[SerializeField] private Transform shotPosition;
+	[SerializeField] private GameObject bulletPregab = null;
+	[SerializeField] private Transform shotPosition = null;
 
 	[SerializeField] private float shotInterval = 1.0f;
 	private float timeCount;
@@ -17,11 +17,13 @@ public class ShootEnemy : BaseEnemyController {
 		if(timeCount >= shotInterval)
 		{
 			Shot();
+			timeCount = 0.0f;
 		}
 	}
 
 	private void Shot()
 	{
-		Instantiate(bulletPregab,shotPosition.position,myTransform.rotation);
+		GameObject obj = Instantiate(bulletPregab,shotPosition.position,myTransform.rotation) as GameObject;
+		obj.GetComponent<EnemyBullet>().Set(myTransform.localScale.x,0.0f,shotPosition.position);
 	}
 }
