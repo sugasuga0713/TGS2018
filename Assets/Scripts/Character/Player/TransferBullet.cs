@@ -24,7 +24,6 @@ public class TransferBullet : PlayerBullet {
 
 	private void Hit(Collider2D coll)
 	{
-		Debug.Log(coll.bounds.size);
-		shotManager.Transfer(coll.transform, coll, coll.bounds.size,true);
+		shotManager.Transfer(coll.transform.parent, coll, coll.bounds.size,true);
 	}
 }

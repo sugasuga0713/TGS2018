@@ -28,7 +28,8 @@ public class PlayerShotManager : ManagedUpdateBehaviour
 	public float sidePosition; //ワープホールが当たったコライダーの端の位置　ワープ時の位置補正に使用
 
 	//---------------------------------------------------------------------------
-	float damage; //移動時のダメージ計算用
+	//float damage; //移動時のダメージ計算用
+	[SerializeField] private float damage = 0.25f;
 	int i;
 
 	public void Shot(int num,float angle)
@@ -91,7 +92,9 @@ public class PlayerShotManager : ManagedUpdateBehaviour
 
 		objectScript = collTransform.GetComponent<BaseObject>();
 		if (objectScript == null)
-			collTransform.parent.GetComponent<BaseObject>();
+		{
+			objectScript = collTransform.parent.GetComponent<BaseObject>();
+		}
 		objectScript.Pause();
 
 		StartCoroutine(TransferCoroutine(collTransform, collSize, type));
@@ -123,7 +126,15 @@ public class PlayerShotManager : ManagedUpdateBehaviour
 				break;
 		}
 
-		playerController.ShotDamage(ReturnDamege(pos, collTransform.localPosition)); //移動時のダメージ計算
+		//playerController.ShotDamage(ReturnDamege(pos, collTransform.localPosition)); //移動時のダメージ計算
+		if (type)
+		{
+			playerController.ShotDamage(damage);
+		}
+		else
+		{
+			playerController.ShotDamage(damage * 4.0f);
+		}
 
 		objectScript.CancelPause();
 		collTransform.localPosition = pos; //移動
