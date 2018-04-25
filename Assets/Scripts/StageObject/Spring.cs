@@ -9,6 +9,7 @@ public class Spring : BaseObject {
 	[SerializeField] private Vector2 rightTop = Vector2.zero;
 	private Collider2D coll;
 	private Collider2D myColl;
+	[SerializeField] private LayerMask layerMask = 0;
 
 	private void Bounce(Rigidbody2D rb)
 	{
@@ -18,7 +19,7 @@ public class Spring : BaseObject {
 
 	public override void FixedUpdateMe()
 	{
-		coll = Physics2D.OverlapBox(myTransform.position + leftButtom, rightTop, 0.0f);
+		coll = Physics2D.OverlapBox(myTransform.position + leftButtom, rightTop, 0.0f,layerMask);
 
 		if (coll == null)
 			return;
@@ -32,7 +33,7 @@ public class Spring : BaseObject {
 		}
 		else
 		{
-			Bounce(coll.GetComponent<Rigidbody2D>());
+			Bounce(coll.transform.parent.GetComponent<Rigidbody2D>());
 		}
 	}
 
