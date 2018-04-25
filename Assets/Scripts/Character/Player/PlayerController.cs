@@ -11,6 +11,8 @@ public class PlayerController : BaseCharacterController {
 	private bool hasDamaged = false; //ダメージを受けたとき
 	private bool groundedMemory;
 
+	//[System.NonSerialized] public Rigidbody2D rb; //RigidBody2Dのキャッシュ
+
 	[SerializeField] private PlayerShotManager shotManager = null;
 	[SerializeField] private HPManager hpManager = null;
 	[SerializeField] private CameraController cameraController = null;
