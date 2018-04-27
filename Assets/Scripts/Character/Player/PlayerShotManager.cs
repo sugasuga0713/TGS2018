@@ -30,6 +30,7 @@ public class PlayerShotManager : ManagedUpdateBehaviour
 	//---------------------------------------------------------------------------
 	//float damage; //移動時のダメージ計算用
 	[SerializeField] private float damage = 0.25f;
+	[SerializeField] private LayerMask layerMask = 0; 
 	int i;
 
 	public void Shot(int num,float angle)
@@ -171,5 +172,8 @@ public class PlayerShotManager : ManagedUpdateBehaviour
 		{
 			warpHole[0].SetActive(false);
 		}
+
+		//RaycastHit2D hit = Physics2DExtentsion.RaycastAndDraw(bulletPosition.position,warpHoleTransform[0].position,10.0f,layerMask);
+		Debug.Log("distance = " + Physics2DExtentsion.RaycastAndDraw(bulletPosition.position, warpHoleTransform[0].position, 10.0f, layerMask));
 	}
 }
