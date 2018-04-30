@@ -172,8 +172,5 @@ public class PlayerShotManager : ManagedUpdateBehaviour
 		{
 			warpHole[0].SetActive(false);
 		}
-
-		//RaycastHit2D hit = Physics2DExtentsion.RaycastAndDraw(bulletPosition.position,warpHoleTransform[0].position,10.0f,layerMask);
-		Debug.Log("distance = " + Physics2DExtentsion.RaycastAndDraw(bulletPosition.position, warpHoleTransform[0].position, 10.0f, layerMask));
 	}
 }

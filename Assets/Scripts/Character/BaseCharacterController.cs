@@ -38,7 +38,7 @@ public class BaseCharacterController : BaseObject {
 		Move();
 	}
 
-	protected virtual void FixedUpdateCharacter(){
+	protected virtual void FixedUpdateCharacter() {
 
 	}
 
@@ -53,7 +53,7 @@ public class BaseCharacterController : BaseObject {
 		}
 	}
 
-	public virtual void InputX(float x){// int xには移動量が入る
+	public virtual void InputX(float x) {// int xには移動量が入る
 		if (x < 0)
 			dirX = -1;
 		else if (x > 0)
@@ -66,7 +66,7 @@ public class BaseCharacterController : BaseObject {
 	public virtual void Jump()
 	{
 		rb.velocity = new Vector2(rb.velocity.x, 0);
-		rb.AddForce(Vector2.up * Time.deltaTime * jumpPower,ForceMode2D.Impulse);
+		rb.AddForce(Vector2.up * Time.deltaTime * jumpPower, ForceMode2D.Impulse);
 	}
 
 	protected virtual void GroundCheck()
@@ -92,7 +92,7 @@ public class BaseCharacterController : BaseObject {
 			if (!grounded) //着地処理
 			{
 				Landing();
-			}	
+			}
 		}
 		else
 		{
@@ -114,7 +114,7 @@ public class BaseCharacterController : BaseObject {
 	public virtual void HPUpdate(float value)
 	{
 		hp += value;
-		if(hp>= hpMax)
+		if (hp >= hpMax)
 		{
 			hp = hpMax;
 		}
@@ -125,7 +125,7 @@ public class BaseCharacterController : BaseObject {
 		}
 	}
 
-	protected virtual void DestroyAction(){
+	protected virtual void DestroyAction() {
 		//死亡時の処理
 	}
 
@@ -136,17 +136,22 @@ public class BaseCharacterController : BaseObject {
 		rb = GetComponent<Rigidbody2D>(); //Rigidbodyを取得
 		gCheckCount = groundCheck.Length;
 		dirX = (transform.localScale.x > 0.0f) ? 1 : -1; //キャラが右向きのときは画像サイズを1、左向きのときは-1(反転)にする
-		/*transform.localScale = new Vector3(dirX * startScale.x,
-			startScale.y, 1f);*/
+														 /*transform.localScale = new Vector3(dirX * startScale.x,
+															 startScale.y, 1f);*/
 
 	}
 
 	protected virtual void OnTriggerEnter2D(Collider2D collision)
 	{
-		Rigidbody2D collRb = collision.GetComponent<Rigidbody2D>();
-		if (collRb)
+		Debug.Log(collision.name);
+
+		if (collision.tag == "StageObject_dynamic")
 		{
-			if(collRb.velocity.y <= -3.0f)
+			Debug.Log("Yes");
+
+			PhysicsObject collScript = collision.transform.parent.GetComponent<PhysicsObject>();
+			Debug.Log(collScript.VelocityY);
+			if (collScript.VelocityY <= -3.0f)
 			{
 				Damage(3.0f);
 			}

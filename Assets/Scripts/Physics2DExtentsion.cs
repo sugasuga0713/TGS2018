@@ -20,7 +20,8 @@ public static class Physics2DExtentsion
 		if (hit.collider)
 		{
 			//Debug.DrawRay(origin, hit.point - origin, Color.blue, RAY_DISPLAY_TIME, false);
-			return hit.point - origin;
+			//return hit.point - origin;
+			return hit.point;
 		}
 		//非衝突時のRayを画面に表示
 		else

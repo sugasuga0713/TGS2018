@@ -5,6 +5,18 @@ using UnityEngine;
 public class PhysicsObject : BaseObject {
 
 	[SerializeField] private float velocityY = 0;
+	public float VelocityY
+	{
+		get
+		{
+			return velocityY;
+		}
+		set
+		{
+			velocityY = value;
+		}
+	}
+
 	[SerializeField] private float gravity = -9.81f;
 
 	private Vector2[] bottomCheckPos = new Vector2[3];
@@ -29,8 +41,8 @@ public class PhysicsObject : BaseObject {
 		bottomCheckPos[0] = bottomCheckPos[1] = bottomCheckPos[2] = myTransform.position;
 		float bottomY = myTransform.position.y - myCollSize.y * 0.5f - 0.1f;
 		bottomCheckPos[0].y = bottomCheckPos[1].y = bottomCheckPos[2].y = bottomY;
-		bottomCheckPos[0].x -= myCollSize.x - 0.1f;
-		bottomCheckPos[2].x += myCollSize.x - 0.1f;
+		//bottomCheckPos[0].x -= myCollSize.x - 0.1f;
+		//bottomCheckPos[2].x += myCollSize.x - 0.1f;
 
 		for(i = 0; i < 3; i++)
 		{
@@ -38,6 +50,17 @@ public class PhysicsObject : BaseObject {
 			if (otherColl != null)
 			{
 				grounded = true;
+				if (velocityY <= -5.0f)
+				{
+					if (otherColl.tag == "Enemy")
+					{
+						otherColl.transform.parent.GetComponent<BaseEnemyController>().Damage(1.0f);
+					}
+					if (otherColl.tag == "Player")
+					{
+						otherColl.transform.parent.GetComponent<PlayerController>().Damage(3.0f);
+					}
+				}
 				velocityY = 0.0f;
 				adjustmentPos = otherColl.transform.position;
 				adjustmentPos.x = myTransform.position.x;

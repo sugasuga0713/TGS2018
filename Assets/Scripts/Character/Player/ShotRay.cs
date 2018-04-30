@@ -12,10 +12,15 @@ public class ShotRay : ManagedUpdateBehaviour {
 
 	}
 
-	public void Ray(Vector2 shotPos,Vector2 dir)
+	public void Ray(Vector2 shotPos,Vector2 markerPos,Vector2 dir)
 	{
-		Vector2 endPoint = Physics2DExtentsion.RaycastAndDraw(shotPos, dir,10.0f, layerMask);
+		Vector2 endPoint = Physics2DExtentsion.RaycastAndDraw(shotPos, dir,100, layerMask);
 		lRenderer.SetPosition(0,shotPos);
-		lRenderer.SetPosition(1,endPoint);
+	/*	if (endPoint == Vector2.zero)
+		{
+			lRenderer.SetPosition(1, markerPos);
+		}*/
+			lRenderer.SetPosition(1, endPoint);
+		
 	}
 }

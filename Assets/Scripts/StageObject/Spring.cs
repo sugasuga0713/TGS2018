@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Spring : BaseObject {
+public class Spring : PhysicsObject {
 
 	[SerializeField] private float power = 15.0f;
 	[SerializeField] private Vector3 leftButtom = Vector2.zero;
 	[SerializeField] private Vector2 rightTop = Vector2.zero;
 	private Collider2D coll;
-	private Collider2D myColl;
 	[SerializeField] private LayerMask layerMask = 0;
 
 	private void Bounce(Rigidbody2D rb)
@@ -17,8 +16,14 @@ public class Spring : BaseObject {
 		rb.AddForce(Vector2.up * power * rb.mass, ForceMode2D.Impulse);
 	}
 
+	private void Bounce(PhysicsObject physicsObject)
+	{
+		physicsObject.VelocityY = power * 0.7f;
+	}
+
 	public override void FixedUpdateMe()
 	{
+		base.FixedUpdateMe();
 		coll = Physics2D.OverlapBox(myTransform.position + leftButtom, rightTop, 0.0f,layerMask);
 
 		if (coll == null)
@@ -33,7 +38,8 @@ public class Spring : BaseObject {
 		}
 		else
 		{
-			Bounce(coll.transform.parent.GetComponent<Rigidbody2D>());
+			//Bounce(coll.transform.parent.GetComponent<Rigidbody2D>());
+			Bounce(coll.transform.parent.GetComponent<PhysicsObject>());
 		}
 	}
 
@@ -55,6 +61,5 @@ public class Spring : BaseObject {
 	protected override void Initialize()
 	{
 		base.Initialize();
-		myColl = GetComponent<Collider2D>();
 	}
 }

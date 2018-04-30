@@ -31,6 +31,10 @@ public class BaseObject : ManagedUpdateBehaviour {
 	public virtual void Pause()
 	{
 		Active = false;
+
+		if (rb == null)
+			return;
+
 		rb.velocity = Vector2.zero;
 		rb.isKinematic = true;
 	}
@@ -38,6 +42,10 @@ public class BaseObject : ManagedUpdateBehaviour {
 	public virtual void CancelPause()
 	{
 		Active = true;
+
+		if (rb == null)
+			return;
+
 		rb.isKinematic = false;
 	}
 }

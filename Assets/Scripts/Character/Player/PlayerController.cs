@@ -16,6 +16,8 @@ public class PlayerController : BaseCharacterController {
 	[SerializeField] private HPManager hpManager = null;
 	[SerializeField] private CameraController cameraController = null;
 
+	[SerializeField] private ShotRay shotRay = null;
+
 	[SerializeField] private Transform aimingMarkTransform = null;
 	[SerializeField] private Transform bulletPositionBase = null;
 
@@ -33,7 +35,7 @@ public class PlayerController : BaseCharacterController {
 	private Vector3 respawnPosition;
 	private Vector3 pos;
 
-	private int i,j;
+	private int j;
 
 	public override void Jump()
 	{
@@ -99,7 +101,7 @@ public class PlayerController : BaseCharacterController {
 			Damage(2.0f);
 			myTransform.position = respawnPosition;
 		}
-
+		shotRay.Ray(bulletPositionBase.position,aimingMarkTransform.position, (aimingMarkTransform.position - shotManager.GetShotPosition()).normalized);
 	}
 
 	public override void InputX(float x)
