@@ -10,6 +10,8 @@ public class MoveEnemy : BaseEnemyController {
 
 	protected override void FixedUpdateCharacter()
 	{
+		if (!grounded)
+			return;
 		FrontwardCheck();
 		InputX(dirX);
 	}

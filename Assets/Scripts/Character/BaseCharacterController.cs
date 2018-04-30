@@ -22,14 +22,19 @@ public class BaseCharacterController : BaseObject {
 	[System.NonSerialized] public Vector3 startScale; //初期サイズ 反転に使用
 
 	public AnimationController animationController; //
-		
+	public Transform[] groundCheck = null; //接地判定用のTransform
+	private bool groundedMemory; //直前の接地判定
+
+	private int gCheckCount;
+	private int i;
+
 	public override void FixedUpdateMe()
 	{
 		if (!Active)
 			return;
+		GroundCheck();
 		//キャラクターの個別処理
 		FixedUpdateCharacter();
-
 		Move();
 	}
 
@@ -64,6 +69,42 @@ public class BaseCharacterController : BaseObject {
 		rb.AddForce(Vector2.up * Time.deltaTime * jumpPower,ForceMode2D.Impulse);
 	}
 
+	protected virtual void GroundCheck()
+	{
+		//接地処理
+		groundedMemory = grounded;
+
+		for (i = 0; i < gCheckCount; i++)
+		{
+			if (Physics2D.OverlapPoint(groundCheck[i].position) != null)
+			{
+				groundedMemory = true;
+				break;
+			}
+			else
+			{
+				groundedMemory = false;
+			}
+		}
+
+		if (groundedMemory)
+		{
+			if (!grounded) //着地処理
+			{
+				Landing();
+			}	
+		}
+		else
+		{
+			grounded = false;
+		}
+	}
+
+	protected virtual void Landing()
+	{
+		grounded = true;
+	}
+
 	public virtual void Damage(float d)
 	{
 		HPUpdate(-d);
@@ -93,9 +134,11 @@ public class BaseCharacterController : BaseObject {
 		base.Initialize();
 		startScale = transform.localScale; //初期サイズを取得
 		rb = GetComponent<Rigidbody2D>(); //Rigidbodyを取得
+		gCheckCount = groundCheck.Length;
 		dirX = (transform.localScale.x > 0.0f) ? 1 : -1; //キャラが右向きのときは画像サイズを1、左向きのときは-1(反転)にする
 		/*transform.localScale = new Vector3(dirX * startScale.x,
 			startScale.y, 1f);*/
+
 	}
 
 	protected virtual void OnTriggerEnter2D(Collider2D collision)

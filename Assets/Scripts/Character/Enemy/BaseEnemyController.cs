@@ -31,6 +31,7 @@ public class BaseEnemyController : BaseCharacterController {
 			return;
 
 		}
+		GroundCheck();
 		//キャラクターの個別処理
 		FixedUpdateCharacter();
 

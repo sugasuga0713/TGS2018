@@ -4,25 +4,18 @@ using UnityEngine;
 
 public class ShotRay : ManagedUpdateBehaviour {
 
-	private new LineRenderer renderer;
-	[SerializeField] private Transform aimingMarkTransform;
-	[SerializeField] private Transform bulletPositionTransform;
+	[SerializeField] LayerMask layerMask = 0;
+	[SerializeField] LineRenderer lRenderer = null;
 
 	protected override void Initialize()
 	{
-		renderer = GetComponent<LineRenderer>();
-		// 線の幅
-		renderer.SetWidth(0.01f, 0.01f);
-		// 頂点の数
-		renderer.SetVertexCount(2);
-		// 頂点を設定
-		renderer.SetPosition(0, Vector3.zero);
-		renderer.SetPosition(1, new Vector3(1f, 1f, 0f));
+
 	}
 
-	public override void UpdateMe()
+	public void Ray(Vector2 shotPos,Vector2 dir)
 	{
-		renderer.SetPosition(0,bulletPositionTransform.position);
-		renderer.SetPosition(1,aimingMarkTransform.position);
+		Vector2 endPoint = Physics2DExtentsion.RaycastAndDraw(shotPos, dir,10.0f, layerMask);
+		lRenderer.SetPosition(0,shotPos);
+		lRenderer.SetPosition(1,endPoint);
 	}
 }

@@ -9,7 +9,6 @@ public class PlayerController : BaseCharacterController {
 	private bool hasJumped = false; //ジャンプ直後　//ジャンプ直後に接地判定をとらないために使用する
 	private bool hasLanded = false; //着地直後
 	private bool hasDamaged = false; //ダメージを受けたとき
-	private bool groundedMemory;
 
 	//[System.NonSerialized] public Rigidbody2D rb; //RigidBody2Dのキャッシュ
 
@@ -26,7 +25,6 @@ public class PlayerController : BaseCharacterController {
 
 	private AimingMark aimingMark;
 
-	[SerializeField] private Transform[] groundCheck = null; //接地判定用のTransform
 	private Vector3 dustPosition;
 	[SerializeField] private float dustPosY = 0.5f;
 
@@ -53,37 +51,6 @@ public class PlayerController : BaseCharacterController {
 			rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
 			StartCoroutine(JumpFlagOFF(0.2f));
 
-		}
-	}
-
-	private void GroundCheck()
-	{
-		//接地処理
-		groundedMemory = grounded;
-
-		for (i = 0; i < 3; i++)
-		{
-			if (Physics2D.OverlapPoint(groundCheck[i].position) != null)
-			{
-				groundedMemory = true;
-				break;
-			}
-			else
-			{
-				groundedMemory = false;
-			}
-		}
-
-		if(groundedMemory)
-		{
-			if (!grounded) //着地処理
-			{
-				Landing();
-			}
-		}
-		else
-		{
-			grounded = false;
 		}
 	}
 
@@ -118,8 +85,6 @@ public class PlayerController : BaseCharacterController {
 
 	protected override void FixedUpdateCharacter()
 	{
-		GroundCheck();
-
 		dirX = (myTransform.position.x - aimingMarkTransform.position.x < 0) ? 1 : -1;
 		myTransform.localScale = new Vector3(dirX * startScale.x,
 			startScale.y, 1f);
@@ -201,7 +166,7 @@ public class PlayerController : BaseCharacterController {
 		respawnPosition = myTransform.position;
 	}
 
-	private void Landing()
+	protected override void Landing()
 	{
 		if (rb.velocity.y > 0)
 		{
