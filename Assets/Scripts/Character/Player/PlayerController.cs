@@ -78,17 +78,7 @@ public class PlayerController : BaseCharacterController {
 		{
 			if (!grounded) //着地処理
 			{
-				if(rb.velocity.y > 0)
-				{
-					return;
-				}
-				grounded = true;
-				hasLanded = true;
-				animationController.AnimationChange(AnimationController.AnimationType.LANDING);
-				StartCoroutine(LandingFlagOFF(0.1f));
-				dustPosition = groundCheck[1].position;
-				dustPosition.y += dustPosY;
-				EffectManager.Instance.PlayEffect("smoke", dustPosition, 0.5f);
+				Landing();
 			}
 		}
 		else
@@ -209,6 +199,21 @@ public class PlayerController : BaseCharacterController {
 		base.Initialize();
 		aimingMark = aimingMarkTransform.GetComponent<AimingMark>();
 		respawnPosition = myTransform.position;
+	}
+
+	private void Landing()
+	{
+		if (rb.velocity.y > 0)
+		{
+			return;
+		}
+		grounded = true;
+		hasLanded = true;
+		animationController.AnimationChange(AnimationController.AnimationType.LANDING);
+		StartCoroutine(LandingFlagOFF(0.1f));
+		dustPosition = groundCheck[1].position;
+		dustPosition.y += dustPosY;
+		EffectManager.Instance.PlayEffect("smoke", dustPosition, 0.5f);
 	}
 
 	private void AngleYCheck()
